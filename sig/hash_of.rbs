@@ -1,0 +1,13 @@
+# Module to contain the constants, subclass, and class method Hash will extend
+module HashOf
+  OF_ARRAY_LAMBDA: Lambda
+  OF_HASH_LAMBDA: Lambda
+  VERSION: String
+
+  # Produce new Hashes with their default proc set to create hashes recursively
+  class OfHash < Hash
+    def initialize: () -> void
+  end
+
+  def of: (Symbol type, ?recursive: bool) -> Hash
+end
