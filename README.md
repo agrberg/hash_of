@@ -1,6 +1,25 @@
-# HashOf
+# Hash.of
 
-Mostly syntactic sugar to quickly and tersely create hashes of arrays or hashes, and optionally, recursive hashes.
+Mostly syntactic sugar to quickly and tersely create a hash of arrays or hashes, and optionally, recursive hashes.
+
+If you find yourself doing `Hash.new { |hash, key] hash[key] = {} }` a lot you can make this more concise with `Hash.of(:hash)`.
+
+It helps readability when iterating with `#reduce` or `#each_with_object` to create efficient lookup tables. E.g.:
+
+```ruby
+# This is a contrived example for illustrative purposes only as Rails' `Enumerable#index_by` is a better tool for the specific case being depicted.
+a_buncha_records.each_with_object(Hash.new { |hash, key| hash[key] = {} }) do |record, cache|
+  cache[record.id] = record
+end
+
+# vs.
+a_buncha_records.each_with_object(Hash.of(:hash)) do |record, cache|
+  cache[record.id] = record
+end
+
+# or go nuts and inline it
+a_buncha_records.each_with_object(Hash.of(:hash)) { |record, cache| cache[record.id] = record }
+```
 
 ## Installation
 
