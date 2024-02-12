@@ -6,18 +6,14 @@ require_relative "hash_of/version"
 module HashOf
   OF_ARRAY_LAMBDA = ->(hash, key) { hash[key] = [] }
   OF_HASH_LAMBDA = ->(hash, key) { hash[key] = {} }
-
-  # Produce new Hashes with their default proc set to create hashes recursively
-  class OfHash < Hash
-    def initialize = super { |hash, key| hash[key] = OfHash.new }
-  end
+  OF_HASH_RECURSIVE_LAMBDA = ->(hash, key) { hash[key] = Hash.new(&hash.default_proc) }
 
   def of(type, recursive: false)
     case type
     when :array
       Hash.new(&OF_ARRAY_LAMBDA)
     when :hash
-      recursive ? OfHash.new : Hash.new(&OF_HASH_LAMBDA)
+      recursive ? Hash.new(&OF_HASH_RECURSIVE_LAMBDA) : Hash.new(&OF_HASH_LAMBDA)
     end
   end
 end
