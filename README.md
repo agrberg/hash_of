@@ -1,24 +1,69 @@
 # Hash.of
 
-Mostly syntactic sugar to quickly and tersely create a hash of arrays or hashes, and optionally, recursive hashes.
+Syntactic sugar to tersely create a hash of arrays or hashes, and optionally, recursive hashes.
 
-If you find yourself doing `Hash.new { |hash, key] hash[key] = {} }` a lot you can make this more concise with `Hash.of(:hash)`.
+While clear, creating a hash of hashes via `Hash.new { |hash, key| hash[key] = {} }` is verbose. If this pattern is common in your codebase you can express it more concisely as `Hash.of(:hash)`. This can help readability when iterating with `#reduce` or `#each_with_object` to create efficient lookup tables.
 
-It helps readability when iterating with `#reduce` or `#each_with_object` to create efficient lookup tables. E.g.:
+## Example
+
+We have a bunch of records containing the winners of the Academy Awards. We'd like to provide a simple interface for people to look up winners by year and category like the following:
 
 ```ruby
-# This is a contrived example for illustrative purposes only as Rails' `Enumerable#index_by` is a better tool for the specific case being depicted.
-a_buncha_records.each_with_object(Hash.new { |hash, key| hash[key] = {} }) do |record, cache|
-  cache[record.id] = record
+winners_by_year_by_category[2024][:best_picture]
+# => "Oppenheimer
+```
+
+Let's say we have `AcademyAwardResult` objects which have the properties `year`, `category`, and `winner`. They may look something like:
+
+```ruby
+[
+  #<AcademyAwardResult year=2024, category=:best_picture, winner="Oppenheimer">,
+  #<AcademyAwardResult year=2024, category=:best_actor, winner="Cillian Murphy">,
+  …
+  #<AcademyAwardResult year=2023, category=:best_picture, winner="Everything Everywhere All at Once">,
+  …
+  #<AcademyAwardResult year=2022, category=:best_picture, winner="CODA">
+]
+```
+
+The following turns this array of records into a lookup table:
+
+```ruby
+award_results.each_with_object(Hash.new { |hash, key| hash[key] = {} }) do |result, lookup|
+  lookup[result.year][result.category] = result.winner
+end
+```
+
+`Hash.of` enables the terser:
+
+```ruby
+award_results.each_with_object(Hash.of(:hash)) do |result, lookup|
+  lookup[result.year][result.category] = result.winner
 end
 
-# vs.
-a_buncha_records.each_with_object(Hash.of(:hash)) do |record, cache|
-  cache[record.id] = record
-end
+# or the incredibly terse inline
 
-# or go nuts and inline it
-a_buncha_records.each_with_object(Hash.of(:hash)) { |record, cache| cache[record.id] = record }
+award_results.each_with_object(Hash.of(:hash)) { _2[_1.year][_1.category] = _1.winner }
+```
+
+Both result in the following object that powers the specified interface:
+
+```ruby
+{
+  2024 => {
+    :best_picture => "Oppenheimer",
+    :best_actor => "Cillian Murphy",
+    …
+  },
+  2023 => {
+    :best_picture => "Everything Everywhere All at Once",
+    …
+  },
+  2022 => {
+    :best_picture => "CODA",
+    …
+  }
+}
 ```
 
 ## Installation
@@ -27,7 +72,7 @@ Install the gem and add to the application's Gemfile by executing:
 
     $ bundle add hash_of
 
-Alternatively add to your Gemfile via
+Alternatively add to your `Gemfile` via
 
     gem "hash_of", "~> 1.0"
 
@@ -38,7 +83,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-Adds the `Hash.of` method providing the following uses
+`Hash.of` provides the following uses
 
 ### 1. `Hash.of(:array)`
 
@@ -94,8 +139,8 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/hash_of.
+Bug reports and pull requests are welcome on GitHub at https://github.com/agrberg/hash_of.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+The gem is available as open source under the terms of the [MIT License](LICENSE.txt).
