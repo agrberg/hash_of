@@ -1,5 +1,7 @@
 # Hash.of
 
+[![CI](https://github.com/agrberg/hash_of/actions/workflows/ci.yml/badge.svg)](https://github.com/agrberg/hash_of/actions/workflows/ci.yml)
+
 Syntactic sugar to tersely create a hash of arrays or hashes, and optionally, recursive hashes.
 
 While clear, creating a hash of hashes via `Hash.new { |hash, key| hash[key] = {} }` is verbose. If this pattern is common in your codebase you can express it more concisely as `Hash.of(:hash)`. This can help readability when iterating with `#reduce` or `#each_with_object` to create efficient lookup tables.
