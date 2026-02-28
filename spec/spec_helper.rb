@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require "hash_of"
-
 if ENV["COVERAGE"]
   require "simplecov"
   SimpleCov.start
 end
+
+require "hash_of"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

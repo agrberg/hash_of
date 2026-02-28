@@ -1,13 +1,10 @@
-# Module to contain the constants, subclass, and class method Hash will extend
+# Module to contain the constants and class method Hash will extend
 module HashOf
-  OF_ARRAY_LAMBDA: Lambda
-  OF_HASH_LAMBDA: Lambda
+  OF_ARRAY_LAMBDA: ^(Hash, untyped) -> Array[untyped]
+  OF_HASH_LAMBDA: ^(Hash, untyped) -> Hash[untyped, untyped]
+  OF_HASH_RECURSIVE_LAMBDA: ^(Hash, untyped) -> Hash[untyped, untyped]
+  VALID_TYPES: Array[Symbol]
   VERSION: String
 
-  # Produce new Hashes with their default proc set to create hashes recursively
-  class OfHash < Hash
-    def initialize: () -> void
-  end
-
-  def of: (Symbol type, ?recursive: bool) -> Hash
+  def of: (Symbol type, ?recursive: bool) -> Hash[untyped, untyped]
 end

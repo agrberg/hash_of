@@ -10,7 +10,7 @@ We have a bunch of records containing the winners of the Academy Awards. We'd li
 
 ```ruby
 winners_by_year_by_category[2024][:best_picture]
-# => "Oppenheimer
+# => "Oppenheimer"
 ```
 
 Let's say we have `AcademyAwardResult` objects which have the properties `year`, `category`, and `winner`. They may look something like:
@@ -80,7 +80,6 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
     $ gem install hash_of
 
-
 ## Usage
 
 `Hash.of` provides the following uses
@@ -135,7 +134,7 @@ recursive_hash_of_hashes
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake` to run the tests and Rubocop. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bundle install` to install dependencies. Then, run `bundle exec rake` to run the tests and RuboCop. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 ## Contributing
 
