@@ -1,6 +1,7 @@
 # Hash.of
 
 [![CI](https://github.com/agrberg/hash_of/actions/workflows/ci.yml/badge.svg)](https://github.com/agrberg/hash_of/actions/workflows/ci.yml)
+[![Gem Version](https://badge.fury.io/rb/hash_of.svg)](https://rubygems.org/gems/hash_of)
 
 Syntactic sugar to tersely create a hash of arrays or hashes, and optionally, recursive hashes.
 
