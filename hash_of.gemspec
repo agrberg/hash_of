@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary = "Syntactic sugar to create hashes of hashes or arrays and ability to make them recursive."
   spec.homepage = "https://github.com/agrberg/hash_of"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.3.0"
+  spec.required_ruby_version = ">= 3.3"
 
   spec.metadata["bug_tracker_uri"] = "https://github.com/agrberg/hash_of/issues"
   spec.metadata["changelog_uri"] = "https://github.com/agrberg/hash_of/blob/main/CHANGELOG.md"
