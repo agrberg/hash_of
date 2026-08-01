@@ -10,3 +10,7 @@
 
 # rspec failure tracking
 .rspec_status
+
+# Bundler: this is a gem, so the lockfile is not committed. Dev dependencies
+# resolve fresh so CI catches breaking releases when they ship.
+/Gemfile.lock
